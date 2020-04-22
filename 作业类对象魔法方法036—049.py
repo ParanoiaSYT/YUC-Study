@@ -163,5 +163,129 @@ while True:
             fish.remove(each_fish)
             print('一条鱼🐟被吃掉啦！')
 
+#038继承
+# __init__(self):   #魔法方法init最多只能返回None
 
+#覆盖
+class Bird():
+    def fly(self):
+        print('fly away!')
+class Penguin(Bird):
+    def fly(self):
+        pass
+p=Penguin()
+p.fly()        #这样就能覆盖父类的fly
 
+#多重继承(导致钻石继承问题等等）
+class A():
+    def __init__(self):
+        print("进入A…")
+        print("离开A…")
+class B(A):
+    def __init__(self):
+        print("进入B…")
+        A.__init__(self)
+        print("离开B…")
+class C(A):
+    def __init__(self):
+        print("进入C…")
+        A.__init__(self)
+        print("离开C…")
+class D(B, C):
+    def __init__(self):
+        print("进入D…")
+        B.__init__(self)
+        C.__init__(self)
+        print("离开D…")
+d=D()
+print('==========================')
+#修改为：
+class A():
+    def __init__(self):
+        print("进入A…")
+        print("离开A…")
+class B(A):
+    def __init__(self):
+        print("进入B…")
+        super().__init__()
+        print("离开B…")
+class C(A):
+    def __init__(self):
+        print("进入C…")
+        super().__init__()
+        print("离开C…")
+class D(B, C):
+    def __init__(self):
+        print("进入D…")
+        super().__init__()
+        print("离开D…")
+d=D()
+
+#点和直线
+import math as m
+class Point():
+    def __init__(self,x=0,y=0):
+        self.x=x
+        self.y=y
+    def getX(self):
+        return self.x
+    def getY(self):
+        return self.y
+class Line():
+    def __init__(self,p1,p2):
+        self.l=p1.getX()-p2.getX()
+        self.w=p1.getY()-p2.getY()
+    def getLen(self):
+        L=m.sqrt(self.l**2+self.w**2)
+        print('直线的长度为：%s'%L)
+p1=Point(1,2)
+p2=Point(4,5)
+l=Line(p1,p2)
+l.getLen()
+
+#039
+
+#继承和组合
+# 根据实际应用场景确定。简单的说，组合用于“有一个”的场景中，继承用于“是一个”的场景中。
+# 例如，水池里有一个乌龟，天上有一个鸟，地上有一个小甲鱼，这些适合使用组合。
+# 青瓜是瓜，女人是人，鲨鱼是鱼，这些就应该使用继承啦。
+
+class BB:
+    def printBB(self):         #一定要有这个self
+        print("no zuo no die")
+bb = BB()
+bb.printBB()
+
+#实例化一个+1，删除一个-1
+class C:
+    count = 0
+    def __init__(self):
+        C.count += 1
+    def __del__(self):
+        C.count -= 1
+a = C()
+b = C()
+c = C()
+del a
+print(C.count)
+
+#栈（Stack）类
+class Stack():
+    def __init__(self,start=[]):
+        self.stack=[]
+        for i in start:
+            self.push(i)
+    def isEmpty(self):
+        return not self.stack
+    def push(self,x):
+        self.stack.append(x)
+    def pop(self):
+        self.stack.pop()
+    def top(self):
+        return self.stack[-1]
+    def bottom(self):
+        return self.stack[0]
+s=Stack([2,5,7,4,9])
+s.push(5)
+print(s.top())
+print(s.bottom())
