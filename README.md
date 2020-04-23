@@ -6,10 +6,14 @@
 
 ``` 
 youheart=[]
+
 def LoveStudy():
+
     yourheart.append(study)
     print("I love study!")
+    
 LoveStudy()
+
 
 ```
 
