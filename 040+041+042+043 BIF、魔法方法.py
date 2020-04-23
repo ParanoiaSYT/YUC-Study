@@ -24,6 +24,8 @@ class C:
         self.x=x
 c1=C()
 print(hasattr(c1,'x'))     #hasattr第二个参数属性要用字符串符号扩起来
+print(hasattr(c1,'y'))      #True or False
+
 print(getattr(c1,'x'))      #返回x参数值
 print(getattr(c1,'y','无此属性'))   #第三个值为不存在时返回值，不设置则会报错
 setattr(c1,'y','FISHCCCC')      #设置属性,没有则新建
@@ -51,7 +53,7 @@ del c1.x
 # print(c1.size)
 
 # property相当于一个统一端口,对于用户来说，即使改函数名也没有影响
-# property(fge=None,fset=None,fdel=None,doc=None)具体函数方法需要程序员自己设计
+# property(fget=None,fset=None,fdel=None,doc=None)具体函数方法需要程序员自己设计
 
 #构造和析构
 class Rectangle():

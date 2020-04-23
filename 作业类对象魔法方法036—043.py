@@ -68,7 +68,7 @@ class Gui():            #乌龟的操作有：能量变化，移动，吃鱼
         self.power=100
         self.x=r.randint(legal_x[0],legal_x[1])
         self.y=r.randint(legal_y[0],legal_y[1])
-        speed=int(input('乌龟每次移动的步伐为speed='))
+        # speed=int(input('乌龟每次移动的步伐为speed='))
     def move(self,speed=1):
         new_x=self.x+r.choice([speed,-speed])
         new_y=self.y+r.choice([speed,-speed])
@@ -289,3 +289,157 @@ s=Stack([2,5,7,4,9])
 s.push(5)
 print(s.top())
 print(s.bottom())
+
+#040
+#修饰符,用来对@下的函数进行修饰(给一颗圣诞树添加饰品）
+import time
+def timeslong(func):
+    def call():
+        start = time.perf_counter()         #time.perf_counter(),返回计时器的精准时间（系统的运行时间），包含整个系统的睡眠时间。
+                                            # 由于返回值的基准点是未定义的，所以，只有连续调用的结果之间的差才是有效的。
+        print("It's time starting ! ")
+        func()
+        print("It's time ending ! ")
+        end = time.perf_counter()
+        return "It's used : %s ." % (end - start)
+    return call
+@timeslong
+def f():
+    y = 0
+    for i in range(10):
+        y = y + i + 1
+        print(y)
+    return y
+print(f())          #计算数10个数所需的时间，详情见（https://fishc.com.cn/thread-128529-1-1.html）
+
+#‘@’修饰符必须出现在函数定义前一行，不允许和函数定义在同一行。
+# 只可以在模块或类定义层内对函数进行修饰，不允许修饰一个类。
+# @修饰符更像是装饰器的一个浓缩，一个语法糖
+
+#描述符property()
+class D:
+    def __init__(self):
+        self._x = None
+
+    def getx(self):
+        return self._x
+    def setx(self, value):
+        self._x = value
+    def delx(self):
+        del self._x
+    x = property(getx, setx, delx, "I'm the 'x' property.")
+d1=D()
+d1.x=20
+print(d1.x,d1._x)
+#和下面功能一样
+class C1:
+    def __init__(self):
+        self._x = None
+    @property
+    def x(self):
+        """I'm the 'x' property."""
+        return self._x
+    @x.setter                #名字不是乱取的...
+    def x(self, value):
+        self._x = value
+    @x.deleter              #名字不是乱取的...
+    def x(self):
+        del self._x
+c=C1()
+print(c.x)
+c.x=32
+print(c.x,c._x)
+del c.x
+
+#041
+#######
+class FileObject:
+    '''给文件对象进行包装从而确认在删除时文件流关闭'''
+
+    def __init__(self, filename='sample.txt'):
+        #读写模式打开一个文件
+        self.new_file = open(filename, 'r+')
+
+    def __del__(self):
+        self.new_file.close()
+        del self.new_file
+
+
+f=FileObject('boy_1.txt')
+print(f.new_file.read())
+del f
+
+#C2F
+class C2F(float):
+    def __new__(cls, arg=0.0):
+        return float.__new__(cls,arg*1.8+32,)
+print(C2F(30))
+
+#新int
+class Aint(int):
+    def __new__(cls, arg=0):
+        if isinstance(arg,str):
+            total=0
+            for i in arg:
+                total+=ord(i)
+            arg= total
+        return int.__new__(cls,arg)
+a=Aint('sag')
+b=Aint(234)
+c=Aint('23A')       #A的ASCII码是65，2和3也返回ASCII码加起来了
+print(a,b,c)
+
+#042
+class Nstr(str):
+    def __sub__(self, other):
+        for i in self:
+            for j in other:
+                if i==j:
+                    return self.replace(i,'')
+a=Nstr('fishfish')
+b=Nstr('sssccc')
+print(a-b)
+
+class Nstr(str):
+    def __lshift__(self, other):
+        return self[other:]+self[:other]
+    def __rshift__(self, other):
+        return self[-other:]+self[:-other]
+n=Nstr('abcdefg')
+print(n.__lshift__(2))
+print(n.__rshift__(2))
+
+#字符串加减乘除
+class Nstr(str):
+    def __init__(self,arg=''):
+        if isinstance(arg,str):
+            self.total=0
+            for i in arg:
+                self.total+=ord(i)
+        else:
+            print('传入参数非字符串！')
+    def __add__(self, other):
+        return  self.total+other.total
+    def __sub__(self, other):
+        return  self.total-other.total
+    def __mul__(self, other):
+        return  self.total*other.total
+    def __truediv__(self, other):
+        return  self.total/other.total
+a=Nstr('abc')
+b=Nstr('ABC')
+print((a-b),(a+b),a*b,a/b)
+#或者这样实现
+class Nstr(int):
+    def __new__(cls, arg=0):
+        if isinstance(arg, str):
+            total = 0
+            for each in arg:
+                total += ord(each)
+            arg = total
+        return int.__new__(cls, arg)
+a=Nstr('abc')
+b=Nstr('ABC')
+print((a-b),(a+b),a*b,a/b)
+
+#043
