@@ -443,3 +443,47 @@ b=Nstr('ABC')
 print((a-b),(a+b),a*b,a/b)
 
 #043
+class C:
+    @staticmethod  # 该修饰符表示 static() 是静态方法
+    def static(arg1, arg2, arg3):       #静态方法不需要self参数
+        print(arg1, arg2, arg3, arg1 + arg2 + arg3)
+
+    def nostatic(self):
+        print("I'm the f**king normal method!")
+c1=C()
+c2=C()
+c1.static(2,1,3)
+print(c1.static is C.static is c2.static)          # 静态方法只在内存中生成一个，节省开销
+print(c1.nostatic is c2.nostatic)                  # 普通方法每个实例对象都拥有独立的一个，开销较大
+
+#判断传入参数
+class C():
+    def __init__(self,*args):       #参数是元组形式
+        if not args:
+            print('没有参数！')
+        else:
+            print('传入了%d个参数,分别为:'%len(args),end='')
+            for each in args:
+                print(each,end=' ')
+c=C(3,'f',6,1,7,8,'M')
+
+#比较字符串长度
+class Word(str):
+    def __new__(cls,arg):
+        if ' ' in arg:
+            print("Value contains spaces. Truncating to first space.")
+            arg=arg[:arg.index(' ')]
+        return str.__new__(cls,arg)
+
+    def __ge__(self, other):
+        return len(self)>=len(other)
+    def __gt__(self, other):
+        return len(self)>len(other)
+    def __lt__(self, other):
+        return len(self)<len(other)
+    def __le__(self, other):
+        return len(self)<=len(other)
+
+w1=Word('apple')
+w2=Word('ooasp shgafhaf')
+print(w1<=w2)
