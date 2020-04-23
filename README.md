@@ -7,7 +7,7 @@
 ``` 
 youheart=[]
 def LoveStudy():
-    yourheart.append(stydy)
+    yourheart.append(study)
     print("I love study!")
 LoveStudy()
 
