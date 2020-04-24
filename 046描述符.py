@@ -83,3 +83,123 @@ tem.cel=36
 print(tem.fah)
 tem.fah=100
 print(tem.cel)
+
+print('=========================================')
+################################################################################
+# 简单说描述符就是一个类，一个至少实现 __get__()、__set__() 或 __delete__() 三个特殊方法中的任意一个的类。
+class MyDes:
+    def __init__(self, value = None):
+        self.val = value
+
+    def __get__(self, instance, owner):
+        return self.val - 20
+
+    def __set__(self, instance, value):
+        self.val = value + 10
+        print(self.val)
+class C:
+    x = MyDes()
+
+if __name__ == '__main__':  # 该模块被执行的话，执行下边语句。
+    c = C()
+    c.x = 10
+    print(c.x)
+
+print('=========================================')
+#访问实例层次上的描述符 x，只会返回描述符本身。为了让描述符能够正常工作，它们必须定义在类的层次上。
+# 如果你不这么做，那么 Python 无法自动为你调用 __get__ 和 __set__ 方法。
+class MyDes:
+    def __init__(self, value = None):
+            self.val = value
+    def __get__(self, instance, owner):
+            return self.val ** 2
+
+class Test:
+    def __init__(self):
+            self.x = MyDes(3)
+
+    # x=MyDes(3)           #换成这句就可以返回9了
+
+test = Test()
+print(test.x)       #不会返回9
+
+print('=========================================')
+class MyDes:
+    def __init__(self,initval=None,name=None):
+        self.val=initval
+        self.name=name
+    def __get__(self,instance,owner):
+        print('做出访问了',self.name)
+        return self.val
+    def __set__(self, instance, value):
+        print('属性修改了',self.name)
+        self.val=value
+    def __delete__(self, instance):
+        print("正在删除变量：", self.name)
+        print("噢~这个变量没法删除~")
+
+class Test:
+    x=MyDes(10,'x')             #注意这里属性名要加引号
+
+c=Test()
+c.x
+c.x=33
+print(c.x)
+del c.x
+
+print('=========================================')
+#记录指定变量的读取和写入操作，并将记录以及触发时间保存到文件（record.txt）
+import time
+print(time.ctime())         #time.ctime()返回以专门格式返回现在的时间
+class Record:
+    def __init__(self,initval=None,name=None):
+        self.val=initval
+        self.name=name
+        self.filename="record.txt"
+    def __get__(self, instance, owner):
+        with open('record.txt','a') as f:           #打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。
+                                                   # 也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。
+             f.write('%s变量被读取了:%s=%s，时间为%s\n'%(self.name,self.name,self.val,time.ctime()))
+        return self.val
+    def __set__(self, instance, value):
+        self.val=value
+        with open('record.txt', 'a') as f:
+            f.write('%s变量被写入了:%s=%s，时间为%s\n' % (self.name, self.name, self.val, time.ctime()))
+    def __delete__(self, instance):
+        with open('record.txt', 'a') as f:
+            f.write('%s变量被删除了:%s=%s，时间为%s\n' % (self.name, self.name, self.val, time.ctime()))
+        del self.name
+
+class Test():
+    x=Record(66,'y')
+
+test=Test()
+print(test.x)   #读取
+test.x=999      #写入
+test.x          #读取
+
+print('=========================================')
+#加上pickle技术
+# import time
+# print(time.ctime())         #time.ctime()返回以专门格式返回现在的时间
+# class Record:
+#     def __init__(self,initval=None,name=None):
+#         self.val=initval
+#         self.name=name
+#         self.filename="record.txt"
+#     def __get__(self, instance, owner):
+#         with open('record.txt','a') as f:           #打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。
+#                                                    # 也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。
+#              f.write('%s变量被读取了:%s=%s，时间为%s\n'%(self.name,self.name,self.val,time.ctime()))
+#         return self.val
+#     def __set__(self, instance, value):
+#         self.val=value
+#         with open('record.txt', 'a') as f:
+#             f.write('%s变量被写入了:%s=%s，时间为%s\n' % (self.name, self.name, self.val, time.ctime()))
+#     def __delete__(self, instance):
+#         with open('record.txt', 'a') as f:
+#             f.write('%s变量被删除了:%s=%s，时间为%s\n' % (self.name, self.name, self.val, time.ctime()))
+#         del self.name
+#
+# class Test():
+#     x=Record(66,'y')
