@@ -5,15 +5,30 @@
 #### Some changes everyday.
 
 ``` 
-youheart=[]
+class LoveStudy:
 
-def LoveStudy():
-
-    yourheart.append(study)
-    print("I love study!")
+		youheart=[]
+		
+		def __init__(self):
+				print('学习使我快乐!')
+				
+		def learn(self,*items):
+    		yourheart.append(item)
+    		
+    def exercise(self):
+    		print("I love study!")
+    		
+    def show(self):
+    		for each in yourheart:
+    				print(each)
     
-LoveStudy()
+lovestudy=LoveStudy()
 
+lovestudy.learn('study','happy','fun')
+
+lovestudy.exercise
+
+lovestudy.show
 
 ```
 
