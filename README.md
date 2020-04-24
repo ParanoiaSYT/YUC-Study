@@ -20,7 +20,7 @@ class LoveStudy:
 
 	def show(self):
 		for each in yourheart:
-				print(each)
+			print(each)
     
 lovestudy=LoveStudy()
 
