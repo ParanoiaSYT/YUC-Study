@@ -180,26 +180,44 @@ test.x          #读取
 
 print('=========================================')
 #加上pickle技术
-# import time
-# print(time.ctime())         #time.ctime()返回以专门格式返回现在的时间
-# class Record:
-#     def __init__(self,initval=None,name=None):
-#         self.val=initval
-#         self.name=name
-#         self.filename="record.txt"
-#     def __get__(self, instance, owner):
-#         with open('record.txt','a') as f:           #打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。
-#                                                    # 也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。
-#              f.write('%s变量被读取了:%s=%s，时间为%s\n'%(self.name,self.name,self.val,time.ctime()))
-#         return self.val
-#     def __set__(self, instance, value):
-#         self.val=value
-#         with open('record.txt', 'a') as f:
-#             f.write('%s变量被写入了:%s=%s，时间为%s\n' % (self.name, self.name, self.val, time.ctime()))
-#     def __delete__(self, instance):
-#         with open('record.txt', 'a') as f:
-#             f.write('%s变量被删除了:%s=%s，时间为%s\n' % (self.name, self.name, self.val, time.ctime()))
-#         del self.name
-#
-# class Test():
-#     x=Record(66,'y')
+# 编写描述符 MyDes，使用文件来存储属性，属性的值会直接存储到对应的pickle的文件中。如果属性被删除了，文件也会同时被删除，属性的名字也会被注销。
+import os
+import pickle
+print(time.ctime())
+class Record:
+    saved=[]
+    def __init__(self,initval=None,name=None):
+        self.val=initval
+        self.name=name
+        self.filename=self.name+'.pkl'
+
+    def __get__(self, instance, owner):
+        if self.name not in Record.saved:
+            raise AttributeError('%s 属性未赋值！'%self.name)
+        else:
+            with open(self.filename,'rb')as f:
+                value=pickle.load(f)
+        return value
+
+    def __set__(self, instance, value):
+        self.val=value
+        with open(self.filename,'wb') as f:
+            pickle.dump(value,f)
+            Record.saved.append(self.name)
+
+    def __delete__(self, instance):
+        # with open(self.filename,'wb') as f:       #这样删除只会删掉f中的内容
+        #     del f
+
+        os.remove(self.filename)
+        Record.saved.remove(self.name)
+        del self.name
+
+class Test():
+    x=Record(66,'m')
+
+test=Test()
+test.x=40
+test.x=66
+del test.x
+# print(test.x)
