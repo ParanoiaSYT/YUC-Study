@@ -134,4 +134,3 @@ m=MyTimer(test)
 m.set_timer('perf_counter')
 m.timing()
 print(m)
-
