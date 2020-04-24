@@ -10,7 +10,7 @@ class LoveStudy:
      	youheart=[]
 		
 	def __init__(self):
-			print('学习使我快乐!')
+		print('学习使我快乐!')
 
 	def learn(self,*items):
 	yourheart.append(item)
