@@ -104,7 +104,7 @@ a=int('123')    #a就是int的实例对象
 b=int('355')
 print(a+b)
 
-#int的算数操作符__add__,__sub__魔法方法
+#算数操作符__add__,__sub__魔法方法
 class New_int(int):
     def __add__(self, other):
         return int.__sub__(self,other)

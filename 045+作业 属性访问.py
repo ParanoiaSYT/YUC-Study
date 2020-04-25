@@ -15,7 +15,7 @@ class C:
         self.size=value
     def delSize(self):
         del self.size
-    x=property(getSize,setSize,delSize)
+    x=property(getSize,setSize,delSize)     #property描述符
 
 c=C()
 print(c.x)
@@ -24,6 +24,7 @@ print(c.x)
 del c.x
 
 ##属性访问魔法方法
+#属性访问的四种魔法方法如下展示
 class C:
     def __getattribute__(self, item):   #属性被访问时的行为
         print('getattribute')
@@ -118,6 +119,8 @@ class Demo:
     def __getattr__(self, name):
         self.name='FishC'
         return self.name
+
+    #属性set魔法方法不需要改变，原来的就行
 
 demo=Demo()
 print(demo.x)

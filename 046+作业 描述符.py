@@ -84,9 +84,11 @@ print(tem.fah)
 tem.fah=100
 print(tem.cel)
 
+
 print('=========================================')
 ################################################################################
 # 简单说描述符就是一个类，一个至少实现 __get__()、__set__() 或 __delete__() 三个特殊方法中的任意一个的类。
+
 class MyDes:
     def __init__(self, value = None):
         self.val = value
@@ -124,6 +126,8 @@ test = Test()
 print(test.x)       #不会返回9
 
 print('=========================================')
+#描述符不像属性访问，get,set都是自己写的，没有自动过程，不会产生"无限递归"
+
 class MyDes:
     def __init__(self,initval=None,name=None):
         self.val=initval
