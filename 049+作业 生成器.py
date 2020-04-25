@@ -50,3 +50,60 @@ for each in d:
 print('\n======================')
 
 print(sum(i for i in range(100) if i%2))    #甚至在sum函数里不用括号扩起来也是生成器
+
+##作业
+def myRev(item):
+    length=len(item)
+    while length>0:
+        yield item[length-1]
+        length-=1
+
+# def myRev(data):
+#     # 这里用 range 生成 data 的倒序索引
+#     # 注意，range 的结束位置是不包含的
+#     for index in range(len(data)-1, -1, -1):      #这样写更加简洁
+#         yield data[index]
+
+for i in myRev('Fishc'):
+    print(i,end='')
+
+print('\n==========================================')
+#素数和
+#我自己写的求素数函数运算太久了(逻辑没问题，速度比不上）
+# def is_prime(num):
+#     if num==2:return True
+#     for i in range(2,num//2+1):
+#         if num%i==0:
+#             return False
+#     return True
+
+import math
+def is_prime(num):
+    if num > 1:
+        if num == 2:
+            return True
+        if num % 2 == 0:
+            return False
+        for current in range(3, int(math.sqrt(num) + 1), 2):        #两步一跨就快很多了
+            if num % current == 0:
+                return False
+        return True
+    return False
+
+def sumPrime(num):
+    while True:
+        if is_prime(num):
+            yield num
+        num+=1
+
+def solve():
+    sum1=2
+    for i in sumPrime(3):
+        if i<20000:
+            sum1+=i
+        else:
+            print(sum1)
+            break
+if __name__ =='__main__':
+    solve()
+

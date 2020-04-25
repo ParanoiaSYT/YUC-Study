@@ -1,3 +1,4 @@
+#050
 #模块封装
 # 可以简化代码，也可以实现代码重用
 
@@ -5,6 +6,7 @@
 import sys
 print(sys.path)
 sys.path.append('/Users/sunyuting/YuC-Study/自制模块')      #可以导入想要的路径
+print(sys.path)
 
 import hello
 hello.hi()
@@ -33,7 +35,23 @@ print('========================================================')
 print(__name__,tc.__name__)
 
 ########################################################
+#051
 #package包,需要一个__init__.py的文件（可以为空）
 import 自制模块.hello,自制模块.TemperatureConversion as t
 hello.hi()
 print(t.c2f(36),t.f2c(99))
+
+print('========================================================')
+########################################################
+#052
+import timeit
+print(timeit.__doc__)
+print('========================================================')
+print(dir(timeit))
+
+print(timeit.__all__)       #对外接口函数,如果模块中有all,from timeit import*就只会把这四个接口导入
+
+print(timeit.__file__)      #源代码位置
+
+print('========================================================')
+help(timeit)
