@@ -64,6 +64,7 @@ print(type(a))
 a.clear()
 print(a, b, type(a))  # 清空的是a、b的整个字典
 
+print('========================================================')
 # copy浅拷贝
 a = {1: 'one', 2: 'two', 3: 'three'}
 b = a.copy()
@@ -72,6 +73,8 @@ print(a, b, c)
 print(id(a), id(b), id(c))  # a和c位置一样是深拷贝（赋值）,b位置不同为浅拷贝(copy)
 c[4] = 'four'
 print(a, b, c)  # a和c同步变化,b不被干扰
+
+print('========================================================')
 
 # pop
 print(a.pop(2))
