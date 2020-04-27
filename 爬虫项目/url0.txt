@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="鱼C工作室|免费编程视频教学|Python教学|Web开发教学|全栈开发教学|C语言教学|汇编教学|Win32开发|加密与解密|Linux教学">
+<meta name="description" content="鱼C工作室为大家提供最有趣的编程视频教学。">
+<meta name="author" content="鱼C工作室">
+<title>鱼C工作室-免费编程视频教学|Python教学|Web开发教学|全栈开发教学|C语言教学|汇编教学|Win32开发|加密与解密|Linux教学</title>
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/jq.js"></script>
+<script src="js/fishcEgg.js"></script>
+<script>
+        $(document).ready(function() {
+            var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+            createStoryJS({
+                type: 'timeline',
+                width: 'auto',
+                height: windowHeight,
+                source: 'data.json',
+                start_at_end: true, //OPTIONAL START AT LATEST DATE
+                embed_id: 'my-timeline'
+            });
+
+            // 浏览器判断，如果是IE弹出提示框
+            function getExplore() {
+                var Sys = {};
+                var ua = navigator.userAgent.toLowerCase();
+                var s;
+                (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1]:
+                    (s = ua.match(/msie ([\d\.]+)/)) ? Sys.ie = s[1] :
+                    (s = ua.match(/edge\/([\d\.]+)/)) ? Sys.edge = s[1] :
+                    (s = ua.match(/firefox\/([\d\.]+)/)) ? Sys.firefox = s[1] :
+                    (s = ua.match(/(?:opera|opr).([\d\.]+)/)) ? Sys.opera = s[1] :
+                    (s = ua.match(/chrome\/([\d\.]+)/)) ? Sys.chrome = s[1] :
+                    (s = ua.match(/version\/([\d\.]+).*safari/)) ? Sys.safari = s[1] : 0;
+                // 根据关系进行判断
+                if (Sys.ie) alert('请使用非IE浏览器打开本主页');
+
+            }
+            getExplore();
+
+        });
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timelinejs/2.36.0/js/storyjs-embed.js"></script>
+</head>
+<body>
+<img src="img/tradeMark.png" alt="trademark" usemap="#myTrademark" style="position:absolute; z-index: 9999; position: fixed; top: 15px; border: 0; right:0; display: block;">
+<map name="myTrademark">
+<area shape="poly" coords="8,0,45,0,196,148,196,185" href="http://fishc.taobao.com" alt="TaoBao" target="_blank">
+<area shape="poly" coords="67,0,98,0,196,97,196,129" href="http://bbs.fishc.com/forum.php" alt="TaoBao" target="_blank">
+</map>
+<div id="my-timeline"></div>
+<div class="myICP">
+<a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action" target="_blank">粤ICP备18085999号-2</a>
+</div>
+<script>
+        window.onload = function() {
+            $(".storyjs-embed.sized-embed").css("padding-top", "0");
+            $(".vco-storyjs .vco-feature .vco-slide").css("padding-top", "0");
+        };
+    </script>
+</body>
+</html>

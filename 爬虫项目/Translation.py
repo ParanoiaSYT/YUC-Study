@@ -20,7 +20,10 @@ data['version']='2.1'
 data['keyfrom']= 'fanyi.web'
 data['action']= 'FY_BY_REALTlME'
 
+#utf-8是Unicode编码的一种
 data=urllib.parse.urlencode(data).encode('utf-8')       #把Unicode文件格式转化为utf-8编码形式
+# urlopen 函数有一个 data 参数，如果给这个参数赋值，那么 HTTP 的请求就是使用 POST 方式；
+# 如果 data 的值是 NULL，也就是默认值，那么 HTTP 的请求就是使用 GET 方式
 
 response=urllib.request.urlopen(url1,data)
 html=response.read().decode('utf-8')        #utf-8解码成Unicode格式
@@ -28,6 +31,7 @@ html=response.read().decode('utf-8')        #utf-8解码成Unicode格式
 # print(html)
 
 #json结构，字符串封装
+# JSON 是一种轻量级的数据交换格式，说白了这里就是用字符串把Python的数据结构封装起来，便与存储和使用。
 # import json
 target=json.loads(html)
 # print(type(target))
