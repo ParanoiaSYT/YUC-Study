@@ -6,9 +6,9 @@ def url_open(link):
     r = requests.get(link, headers=headers)
 
     return r
-def get_page(link):
-    # 获得页码数
-    html=url_open(link).text
+# def get_page(link):
+#     # 获得页码数
+#     html=url_open(link).text
 
     # a=html.find("page-cur")+10     #向右偏移（20+3）个字符
     # b=html.find("<",a)          #从a处找至第一个]
@@ -26,34 +26,28 @@ def find_imgs(page_url):
             img_addrs.append(html[a+9:b+4])
         else:
             b=a+9
-    a = html.find("img src=",b)
+        a = html.find("img src=",b)
 
-    for each in img_addrs:
-        print('http:'+each)
+    return img_addrs
 
 def save_imgs(folder,img_addrs):
     for each in img_addrs:
         filename=each.split('/')[-1]
         with open(filename,'wb')as f:
             img=url_open(each)
-            f.write(img)
+            f.write(img.content)
 
-def dl_MM(folder='OOXX',page=10):
+def dl_MM(folder='OOXX',page=5):
     os.mkdir(folder)
     os.chdir(folder)
     link="http://www.meituba.com/dongmantupian/"
-    page_num=int(get_page(link))
+    # page_num=int(get_page(link))
 
-    for i in range(page):
-        page_url=link+'list31'+str(page_num)+'.html'
-        page_num += i
+    for i in range(1,page):
+        page_url=link+'list31'+str(i)+'.html'
+        # page_num += i
         img_addrs=find_imgs(page_url)
-        save_imgs(img_addrs)
-
-# MjAyMDA0MjgtMjEw#comments
-# MjAyMDA0MjgtMjA5#comments
-
-
+        save_imgs(folder,img_addrs)
 
 if __name__=='__main__':
-    dl_MM()
+    dl_MM(folder='OOXX',page=5)

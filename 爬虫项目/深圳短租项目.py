@@ -1,13 +1,17 @@
 from selenium import webdriver
 import time
 
-webdriver.ChromeOptions().add_argument('User-Agent= "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36')
-driver=webdriver.Chrome()
+fp=webdriver.ChromeOptions()
+fp.add_experimental_option('prefs',{'profile.default_content_setting_values':{'images':2},'permissions.default.stylesheet':2,'javascript':2})
+fp.add_argument('User-Agent= "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36')
+driver=webdriver.Chrome(options=fp)
+
 driver.get("https://zh.airbnb.com/s/Shenzhen--China/homes")
 driver.implicitly_wait(10)
-time.sleep(5)
+# 隐形等待
+
 rent_list=driver.find_elements_by_css_selector('div._gig1e7')
-# 所有的出租房
+# 所有的出租房，注意这是个列表
 
 # print(rent_list)
 for each_house in rent_list:
@@ -19,10 +23,8 @@ for each_house in rent_list:
     try:
         discount=each_house.find_element_by_css_selector('span._6vwvwy7').text
     except:
-        discount='折扣在哪里？'
+        discount='木有折扣'
 
     details=each_house.find_element_by_css_selector('div._wuffzwa').text
 
     print(price,name,details,discount)
-
-    time.sleep(2)
