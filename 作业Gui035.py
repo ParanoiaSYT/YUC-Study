@@ -44,14 +44,14 @@
 #     fieldValues=g.multenterbox(errmsg,title,fieldNames,fieldValues)
 
 #文件浏览框(mac上有问题，不支持？）
-import easygui as g
-import os
-file_path=g.fileopenbox(default='*.txt')       #*代表任意多个字符
-with open(file_path) as f:
-    title =os.path.basename(file_path)
-    msg='文件【%s】的内容如下：'%title
-    text=f.read()
-    g.textbox(msg,title,text)
+# import easygui as g
+# import os
+# file_path=g.fileopenbox(default='*.txt')       #*代表任意多个字符
+# with open(file_path) as f:
+#     title =os.path.basename(file_path)
+#     msg='文件【%s】的内容如下：'%title
+#     text=f.read()
+#     g.textbox(msg,title,text)
 
 #统计代码量
 import easygui as g
