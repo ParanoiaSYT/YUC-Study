@@ -2,16 +2,39 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 
+def url_open(link):
+    headers={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Safari/605.1.15'}
 
-link='http://www.santostang.com/'
-headers={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Safari/605.1.15'}
+    r=requests.get(link,headers=headers,timeout=10)
+    return r
 
-r=requests.get(link,headers=headers,timeout=10)
+# link='http://www.santostang.com/'
 
-soup=BeautifulSoup(r.text,"lxml")
-content = soup.find('div', class_="post-content clearfix").get_text().strip().replace('\n','')
-print(type(content))
-print(content)
+# soup=BeautifulSoup(r.text,"lxml")
+# content = soup.find('div', class_="post-content clearfix").get_text().strip().replace('\n','')
+# print(type(content))
+# print(content)
+
+print('==================================')
+# link='https://mp.weixin.qq.com/s/OxW3GIbwMfrpNZPnrMdFNQ'
+# r=url_open(link)
+# soup=BeautifulSoup(r.text,"lxml")
+# pics_list = soup.find_all('img',class_='')
+# # print(pics_list)
+# for i in range(len(pics_list)):
+#     try:
+#         link = pics_list[i]['data-src']
+#     except:
+#         pass
+#     content=url_open(link).content
+#     # filename = '/Users/sunyuting/YuC-Study/爬虫项目/sepics/' + link.split('/')[-2] + '.jpg'
+#     # with open(filename, 'wb')as f:
+#     #     f.write(content)
+#     print(link)
+#     print('===========================')
+
+
+
 
 
 
@@ -40,3 +63,8 @@ c = datetime.datetime.strptime(str(c),'%Y-%m-%d').date()
 print(c)
 
 
+#判断文件有多少行
+for count,line in enumerate(open('Burning.txt')):
+    pass
+count+=1
+print(count)

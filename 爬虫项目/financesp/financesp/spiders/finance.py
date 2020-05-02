@@ -45,6 +45,5 @@ class FinanceSpider(scrapy.Spider):
 
         item['content']=content
 
-        time.sleep(1)
         yield item
 

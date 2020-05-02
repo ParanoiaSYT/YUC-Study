@@ -4,7 +4,7 @@ import os
 
 def open_url(link):
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36'}
-    html=requests.get(link,headers=headers,)
+    html=requests.get(link,headers=headers)
     return html
 
 def get_img(html):

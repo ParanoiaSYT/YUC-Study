@@ -160,7 +160,7 @@ print(set1)
 #         print('第%d行不同'%i)
 # file_compare()
 
-#打印文件行
+#打印文件指定行
 # def filePr(name,n):
 #     f=open(name)
 #     (s,e)=n.split(':')
