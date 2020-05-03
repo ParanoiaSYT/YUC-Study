@@ -1,8 +1,8 @@
 from tkinter import *
 
+
 def callback():
     var.set("你就吹吧，我才不信呢！！")
-
 
 root=Tk()
 root.title('电影下载？')
@@ -32,7 +32,7 @@ imageLabel.pack(side=RIGHT)
 theButton=Button(frame2,text='我已满十八周岁！',fg="purple",command=callback)
 
 theButton.config(relief=SUNKEN)
-# 按下的时候按钮保持凹下去
+# config表示设置某一属性，relief=SUNKEN表示按下的时候按钮保持凹下去
 
 theButton.pack()
 
