@@ -70,7 +70,7 @@ ITEM_PIPELINES = {
 }
 
 IMAGES_URLS_FIELD='link'
-IMAGES_STORE='images'
+IMAGES_STORE='/Users/sunyuting/Desktop'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
