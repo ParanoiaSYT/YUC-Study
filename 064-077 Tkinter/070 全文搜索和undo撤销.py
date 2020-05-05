@@ -17,7 +17,7 @@ def callback(event):
     text.edit_separator()
 text.bind("<Key>",callback)
 # ⚠注意这里要大写Key
-# 'key'表示当输入框被编辑的时候验证
+# 'key'表示当输入框被编辑的时候验证(键盘事件）
 # bind callback函数，每当有按键操作，就插入一个分隔符
 def show():
     text.edit_undo()
