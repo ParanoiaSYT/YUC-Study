@@ -80,3 +80,13 @@ print(name)
 (a,b)=name=string.split('?',1)        #分割一次
 print(name)
 print(a,b)      #换行符依然有效
+
+
+# 整个列表取相反数
+list1=[2,4,67,8]
+list1=[-i for i in list1]
+print(list1)
+
+# 列表中单个元素取相反数
+list1[0]=-list1[0]
+print(list1)
