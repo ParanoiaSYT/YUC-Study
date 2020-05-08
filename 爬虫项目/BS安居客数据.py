@@ -24,7 +24,9 @@ with open('安居客.csv','w') as csvfile:
             address=house.find("span",class_="comm-address").text.strip()
 
             house_info.append([price,name,details,address])         #每组添加成一个小列表
+            # csv格式写入
             w=csv.writer(csvfile)
             w.writerows(house_info)
+
         print('=====第%d页结束啦==========================='%i)
         time.sleep(3)

@@ -1,5 +1,6 @@
 # 顶级窗口，类似于frame
 from tkinter import *
+from tkinter import ttk
 
 root=Tk()
 def create():
@@ -11,7 +12,8 @@ def create():
     msg=Message(top,text="小甲鱼")
     msg.pack()
 
-Button(root,text="创建顶级窗口",relief=SUNKEN,command=create).pack()
+ttk.Style().configure("TButton",relief=SUNKEN)
+ttk.Button(root,text="创建顶级窗口",command=create).pack()
 
 
 mainloop()

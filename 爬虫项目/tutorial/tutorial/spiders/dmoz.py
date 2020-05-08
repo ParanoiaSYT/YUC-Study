@@ -2,7 +2,6 @@
 import scrapy
 from tutorial.items import DmozItem
 
-
 class DmozSpider(scrapy.Spider):
     name = 'dmoz'
     allowed_domains = ['dmoztools.net']
@@ -10,14 +9,19 @@ class DmozSpider(scrapy.Spider):
                   'http://dmoztools.net/Computers/Programming/Languages/Python/Resources/']
 
     def parse(self, response):
-        sel=scrapy.selector.Selector(response)
-        sites=sel.xpath('//*[@id="site-list-content"]/div')
-        items=[]
+        sel = scrapy.selector.Selector(response)
+
+        filename=response.url.split('/')[-2]
+        with open(filename,'wb')as f:
+            f.write(response.body)
+
+        sites = sel.xpath('//*[@id="site-list-content"]/div')
+        items = []
         for site in sites:
-            item=DmozItem()
-            item['title']=site.xpath('div/a/div/text()').extract()
-            item['link']=site.xpath('div[3]/a/@href').extract()
-            item['desc']=site.xpath('div/div/text()').extract()
+            item = DmozItem()
+            item['title'] = site.xpath('div/a/div/text()').extract()
+            item['link'] = site.xpath('div[3]/a/@href').extract()
+            item['desc'] = site.xpath('div/div/text()').extract()
             items.append(item)
 
         return items

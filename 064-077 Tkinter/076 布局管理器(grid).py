@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 root=Tk()
 
@@ -12,7 +13,8 @@ Entry(root).grid(row=0,column=1)
 Label(root,text="密码：").grid(row=1,column=0,sticky=W)
 Entry(root,show="*").grid(row=1,column=1)
 
-Button(root,text="Submit",width=20,relief=SUNKEN).grid(row=2,columnspan=3,pady=10)
+ttk.Style().configure("TButton",width=20,relief=SUNKEN)
+ttk.Button(root,text="Submit").grid(row=2,columnspan=3,pady=10)
 # column不设置默认为0
 
 mainloop()

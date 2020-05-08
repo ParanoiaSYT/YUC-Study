@@ -19,22 +19,22 @@ def url_open(link):
 # print(content)
 
 print('==================================')
-# link='https://mp.weixin.qq.com/s/OxW3GIbwMfrpNZPnrMdFNQ'
-# r=url_open(link)
-# soup=BeautifulSoup(r.text,"lxml")
-# pics_list = soup.find_all('img',class_='')
-# # print(pics_list)
-# for i in range(len(pics_list)):
-#     try:
-#         link = pics_list[i]['data-src']
-#     except:
-#         pass
-#     content=url_open(link).content
-#     # filename = '/Users/sunyuting/YuC-Study/爬虫项目/sepics/' + link.split('/')[-2] + '.jpg'
-#     # with open(filename, 'wb')as f:
-#     #     f.write(content)
-#     print(link)
-#     print('===========================')
+link='https://mp.weixin.qq.com/s/OxW3GIbwMfrpNZPnrMdFNQ'
+r=url_open(link)
+soup=BeautifulSoup(r.text,"lxml")
+pics_list = soup.find_all('img',class_='')
+# print(pics_list)
+for i in range(len(pics_list)):
+    try:
+        link = pics_list[i]['data-src']
+    except:
+        pass
+    content=url_open(link).content
+    # filename = '/Users/sunyuting/YuC-Study/爬虫项目/sepics/' + link.split('/')[-2] + '.jpg'
+    # with open(filename, 'wb')as f:
+    #     f.write(content)
+    print(link)
+    print('===========================')
 
 
 # print('文本编码：',r.encoding)
@@ -90,3 +90,17 @@ print(list1)
 # 列表中单个元素取相反数
 list1[0]=-list1[0]
 print(list1)
+
+
+# 测试ttk
+# from tkinter import *
+# from tkinter import ttk
+# help(ttk.Button)
+# root=Tk()
+# ttk.Style().configure("TButton",padding=15,relief=FLAT,background="green",foreground="blue")
+# # mac上Button似乎仍然无法改bg
+# ttk.Button(root,text="撒放放假啊阱n").pack()
+#
+# Button(root,text="NO.2",relief=SUNKEN,fg="purple").pack()
+# # tk的按钮显现不了字还是
+# mainloop()

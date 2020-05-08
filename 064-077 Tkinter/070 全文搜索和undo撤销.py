@@ -1,5 +1,6 @@
 from tkinter import *
 import hashlib
+from tkinter import ttk
 
 root=Tk()
 
@@ -21,7 +22,8 @@ text.bind("<Key>",callback)
 # bind callback函数，每当有按键操作，就插入一个分隔符
 def show():
     text.edit_undo()
-Button(root,text="撤销",relief=SUNKEN,command=show).pack()
+ttk.Style().configure("TButton",relief=SUNKEN)
+ttk.Button(root,text="撤销",command=show).pack()
 # 每按一下按钮，调用show函数，实现撤销功能
 
 ###################################

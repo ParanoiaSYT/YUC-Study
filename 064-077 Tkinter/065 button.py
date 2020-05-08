@@ -1,5 +1,5 @@
 from tkinter import *
-
+from tkinter import ttk
 
 def callback():
     var.set("你就吹吧，我才不信呢！！")
@@ -29,10 +29,11 @@ photo=PhotoImage(file='/Users/sunyuting/Desktop/18.gif')
 imageLabel=Label(frame1,image=photo)
 imageLabel.pack(side=RIGHT)
 
-theButton=Button(frame2,text='我已满十八周岁！',fg="purple",command=callback)
+ttk.Style().configure("TButton",fg="purple",relief=SUNKEN)
+theButton=ttk.Button(frame2,text='我已满十八周岁！',command=callback)
 
-theButton.config(relief=SUNKEN)
-# config表示设置某一属性，relief=SUNKEN表示按下的时候按钮保持凹下去
+# theButton.config()
+# # config表示设置某一属性，relief=SUNKEN表示按下的时候按钮保持凹下去
 
 theButton.pack()
 

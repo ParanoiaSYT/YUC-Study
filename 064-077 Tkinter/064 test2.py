@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import ttk
+
 
 #  用类来封装
 class App:
@@ -7,7 +9,9 @@ class App:
         # frame.pack()    #自动调节位置，默认调整到最上面
         frame.pack(side=tk.LEFT,padx=10,pady=10)    #在左边，离墙x间距，y间距
 
-        self.hi_there=tk.Button(frame,text='打招呼',bg="red",fg="blue",command=self.say_hi)
+        style=ttk.Style().configure("TButton",padding=15,foreground="green",relief="SUNKEN")
+
+        self.hi_there=ttk.Button(frame,text='打招呼',command=self.say_hi)
         # fg表示前景色(foreground) ,Mac上Button不能修改bg背景色。   放在了frame框架里
         # command表示被按下按钮时,调用 say_hi 函数
 

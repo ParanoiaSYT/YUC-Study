@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 root=Tk()
 
@@ -21,7 +22,7 @@ w.itemconfig(rec1,fill='purple')
 # w.delete(line2)
 # 删除
 
-Button(root,text="清空",command=(lambda x=ALL:w.delete(x))).pack()
+ttk.Button(root,text="清空",command=(lambda x=ALL:w.delete(x))).pack()
 # 用lambda写函数精简
 
 mainloop()

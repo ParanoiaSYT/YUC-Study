@@ -1,5 +1,5 @@
 from tkinter import *
-
+from tkinter import ttk
 
 root=Tk()
 
@@ -14,7 +14,7 @@ Label(root,bg="blue").place(relx=0.5,rely=0.5,relheight=0.2,relwidth=0.2,anchor=
 
 def callback():
     print("正中靶心！！")
-Button(root,text="葵花点穴手！",relief=SUNKEN,command=callback)\
+ttk.Button(root,text="葵花点穴手！",command=callback)\
     .place(relx=0.5,rely=0.5,anchor=CENTER)
 #  relx,rely范围是0到1，anchor不设置的话是"葵"在中间
 

@@ -1,8 +1,10 @@
 from tkinter import *
+from tkinter import ttk
+
 
 root=Tk()
 
-mb=Menubutton(root,text="隐藏菜单",relief=SUNKEN)
+mb=ttk.Menubutton(root,text="隐藏菜单")
 mb.pack()
 
 file_menu = Menu(mb, tearoff=False)

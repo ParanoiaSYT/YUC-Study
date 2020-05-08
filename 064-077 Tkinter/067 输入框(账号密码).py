@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 root=Tk()
 
@@ -24,9 +25,9 @@ def show():
     print("密码：%s"%e2.get())
 
 
-Button(root,text="芝麻开门",width=10,command=show)\
+ttk.Button(root,text="芝麻开门",width=10,command=show)\
     .grid(row=2,column=0,sticky=W,padx=10,pady=5)
-Button(root,text="退出",width=10,command=root.quit)\
+ttk.Button(root,text="退出",width=10,command=root.quit)\
     .grid(row=2,column=1,sticky=E,padx=10,pady=5)
 
 # e.delete(0,END)

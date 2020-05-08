@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 root=Tk()
 root.title('背景图片上加字')
@@ -11,6 +12,6 @@ theLabel=Label(root,text='这里有一片星空\n星辰大海',image=photo,
                font=("微软雅黑",30),
                fg='pink',
                compound=CENTER)
-
+# compound是复合
 theLabel.pack()
 mainloop()

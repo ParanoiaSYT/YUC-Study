@@ -6,6 +6,7 @@ root.title('电影下载？')
 textLable=Label(root,
                 text="您所下载的影片为18禁，\n\n请先成年！！",
                 justify=LEFT,
+                fg="purple",
                 padx=10)
         #justify各行对齐方式
 

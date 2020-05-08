@@ -1,5 +1,5 @@
 from tkinter import *
-
+from tkinter import ttk
 # root=Tk()
 #
 # v=IntVar()
@@ -29,8 +29,12 @@ v=IntVar()
 v.set(1)    #这里默认选中了1,即python。去掉的话默认没有选中
 
 for lang,num in LANGS:
-    b=Radiobutton(group,text=lang,variable=v,value=num,indicatoron=False)
+    # b=Radiobutton(group,text=lang,variable=v,value=num,indicatoron=False)
     # indicatoron写成False就变为按钮（非圆圈）
+    b=ttk.Radiobutton(group,text=lang,variable=v,value=num)
+    # 用ttk才能显示按钮文字
     b.pack(anchor=W,fill=X) #fill可以改为横行和纵向填充
 
 mainloop()
+
+help(ttk.Radiobutton)

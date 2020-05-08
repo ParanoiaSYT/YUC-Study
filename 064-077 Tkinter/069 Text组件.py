@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import ttk
+
 
 root=Tk()
 root.title('点点点')
@@ -16,7 +18,8 @@ def show():
     print("点我干嘛？")
     text.image_create(INSERT,image=photo)
 
-b1=Button(text,text="这是个按钮",fg='blue',height=8,width=15,relief=SUNKEN,command=show)
+ttk.Style().configure("TButton",foreground='blue',height=8,width=15,relief=SUNKEN)
+b1=ttk.Button(text,text="这是个按钮",command=show)
 text.window_create(INSERT,window=b1)
 
 mainloop()

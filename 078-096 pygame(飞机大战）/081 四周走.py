@@ -92,24 +92,24 @@ while True:
         sheep=sheep_right
         position=sheep_rect=sheep.get_rect()
         position.right=width    #贴边
-        speed=[0,10]
+        speed=[0,5]
     if position.bottom>height:
             sheep=sheep_bottom
             position=sheep_rect=sheep.get_rect()
             position.bottom=height    #贴边
             position.right=width
-            speed=[-10,0]
+            speed=[-5,0]
     if position.left<0:
             sheep=sheep_left
             position=sheep_rect=sheep.get_rect()
             position.left=0    #贴边
             position.bottom=height
-            speed=[0,-10]
+            speed=[0,-5]
     if position.top<0:
             sheep=sheep_top
             position=sheep_rect=sheep.get_rect()
             position.top=0    #贴边
-            speed=[10,0]
+            speed=[5,0]
 
     position=position.move(speed)
 
@@ -119,6 +119,6 @@ while True:
 
     # 更新界面(刷新）(双缓冲模式,新图换旧图）,将贴好新图的画面呈现出来
     pygame.display.flip()
-    # pygame.time.delay(5)
+    pygame.time.delay(10)
 
     clock.tick(60)     #设置帧率

@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import ttk
+
 
 root=Tk()
 
@@ -15,6 +17,7 @@ s2.pack(side=BOTTOM)
 def show():
     print(s1.get(),s2.get())
 
-Button(root,text='获取位置',fg='purple',relief=SUNKEN,command=show).pack(side=BOTTOM)
+ttk.Style().configure("TButton",fg='purple',relief="SUNKEN")
+ttk.Button(root,text='获取位置',command=show).pack(side=BOTTOM)
 
 mainloop()

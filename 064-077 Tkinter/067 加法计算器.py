@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 master = Tk()
 frame=Frame(master)
@@ -10,9 +11,9 @@ v1 = StringVar()
 v2 = StringVar()
 v3 = StringVar()
 
-v1.set('0')
-v2.set('0')
-v3.set('0')
+# v1.set('0')
+# v2.set('0')
+# v3.set('0')
 
 
 def test(content):
@@ -50,7 +51,8 @@ def calc():
     v3.set(result)
     return v3
 
-Button(frame,text="计算结果",fg="purple",command=calc,pady=15).grid(row=1,column=2)     #开始计算
+ttk.Style().configure("TButton",fg="purple",pady=15)
+ttk.Button(frame,text="计算结果",command=calc).grid(row=1,column=2)     #开始计算
 
 
 mainloop()

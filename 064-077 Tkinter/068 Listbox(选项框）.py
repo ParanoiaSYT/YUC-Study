@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 master=Tk()
 
@@ -17,7 +18,7 @@ for item in ['鸡蛋','鸭蛋','鹅蛋','李狗蛋']:
 # theLB.delete(0)
 #如果是两个参数，那就是起始和结尾；如果是一个参数那就是索引号
 
-theButton=Button(master,text='删除谁？说话！',
+theButton=ttk.Button(master,text='删除谁？说话！',
                  command=lambda x=theLB:x.delete(ACTIVE))
 # ACTIVE表示当前选中的值
 theButton.pack()

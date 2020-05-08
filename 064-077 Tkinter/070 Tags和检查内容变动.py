@@ -3,7 +3,7 @@ from tkinter import *
 import webbrowser
 # 这是一个打开网页的成熟模块
 import hashlib
-
+from tkinter import ttk
 
 root=Tk()
 
@@ -51,7 +51,7 @@ def check():
         print("风平浪静")
 # 对比两次content的hash值即可
 
-Button(root,text="检查",command=check).pack()
+ttk.Button(root,text="检查",command=check).pack()
 
 
 mainloop()
