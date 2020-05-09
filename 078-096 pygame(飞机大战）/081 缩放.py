@@ -19,8 +19,8 @@ print(pygame.display.list_modes())  #显示当前显示器支持的尺寸
 screen=pygame.display.set_mode(size,RESIZABLE)
 pygame.display.set_caption("这是我的第一个pygame小游戏")
 
-osheep=pygame.image.load("/Users/sunyuting/Desktop/timg.jpeg")
-sheep=pygame.image.load("/Users/sunyuting/Desktop/timg.jpeg")
+osheep=pygame.image.load("timg.jpeg").convert()
+sheep=pygame.image.load("timg.jpeg").convert()
 
 # 设置放大缩小的比率
 radio=1.0

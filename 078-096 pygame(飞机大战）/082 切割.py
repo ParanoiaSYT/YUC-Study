@@ -12,7 +12,7 @@ clock=pygame.time.Clock()
 screen=pygame.display.set_mode(size)
 pygame.display.set_caption("FishC Demo")
 
-turtle=pygame.image.load("/Users/sunyuting/Desktop/turtle.png")
+turtle=pygame.image.load("turtle.png")
 positon=turtle.get_rect()
 # 设置选择变量（0未选择，1选择中，2完成选择）
 select=0

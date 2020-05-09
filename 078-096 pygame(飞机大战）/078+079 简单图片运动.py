@@ -22,10 +22,10 @@ screen=pygame.display.set_mode(size,RESIZABLE)
 pygame.display.set_caption("这是我的第一个pygame小游戏")
 
 # 加载图片
-picture=pygame.image.load("/Users/sunyuting/Desktop/timg.jpeg")
-picture2=pygame.image.load("/Users/sunyuting/Desktop/18.gif")
+picture=pygame.image.load("timg.jpeg").convert()
+picture2=pygame.image.load("18.gif").convert()
 picture2.set_alpha(100)
-# 设置picture2的透明度（范围是0～255）
+# 设置picture2的透明度（范围是0～255）2^8
 
 # 获得图片的位置(矩形位置）
 position=picture.get_rect()
