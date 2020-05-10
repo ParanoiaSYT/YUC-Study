@@ -1,8 +1,9 @@
-# 面向对象
 import pygame
 import sys
 from pygame.locals import *
 from random import *
+import math
+
 
 class Ball(pygame.sprite.Sprite):
     # pygame.sprite.Sprite是pygame里精灵的基类，继承就行
@@ -30,6 +31,16 @@ class Ball(pygame.sprite.Sprite):
         elif self.rect.top>self.height:
             self.rect.bottom=0
 
+def collide_check(item,target):
+    col_balls=[]
+    for each in target:
+        distance=math.sqrt(math.pow((item.rect.center[0]-each.rect.center[0]),2)
+                           +math.pow((item.rect.center[1]-each.rect.center[1]),2))
+        if distance<=(item.rect.width+each.rect.width)/2:
+            col_balls.append(each)
+    return col_balls
+
+
 def main():
     pygame.init()
 
@@ -52,6 +63,8 @@ def main():
         speed=[randint(-10,10),randint(-10,10)]
         ball=Ball(ball_image,position,speed,bg_size)
         # Ball类实例化
+        while collide_check(ball,balls):
+            ball.rect.left,ball.rect.top=randint(0,width-100),randint(0,height-100)
         balls.append(ball)
 
     clock=pygame.time.Clock()
@@ -67,6 +80,15 @@ def main():
             each_ball.move()
             screen.blit(each_ball.image,each_ball.rect)
             # class Ball里传入的rect就是矩形位置
+
+        for i in range(BALL_NUM):
+            item=balls.pop(i)
+            if collide_check(item,balls):
+                item.speed[0]=-item.speed[0]
+                item.speed[1]=-item.speed[1]
+
+            balls.insert(i,item)
+        #     pop取出后要记得再放进去
 
         pygame.display.flip()
         clock.tick(30)

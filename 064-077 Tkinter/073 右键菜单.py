@@ -17,7 +17,8 @@ def popup(event):
     menubar.post(event.x_root,event.y_root)
 
 frame.bind("<Button-2>",popup)
-# 注意这里windows里2是滚轮3是右键，Mac的话，2就是右键
+# 注意这里windows里2是滚轮3是右键，tkinter对于Mac的话，2就是右键
+# 这里注意pygame里button==3对应mac右键
 # MouseWheel表示滚轮滚动（mac和win)
 
 

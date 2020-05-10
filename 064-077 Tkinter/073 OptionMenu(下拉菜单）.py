@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 
-OPTIONS=["china",
+OPTIONS=[
+        '',
+        "china",
          "USA",
          "Japan",
          "England",

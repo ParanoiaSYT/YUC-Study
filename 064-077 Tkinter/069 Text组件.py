@@ -11,7 +11,7 @@ text.pack()
 text.insert(INSERT,"I love \n")     #INSERT指光标所在位置
 text.insert(END,"FishC.com!\n")
 
-photo=PhotoImage(file="/Users/sunyuting/Desktop/18.gif")
+photo=PhotoImage(file="18.gif")
 
 
 def show():

@@ -18,23 +18,23 @@ def url_open(link):
 # print(type(content))
 # print(content)
 
-print('==================================')
-link='https://mp.weixin.qq.com/s/OxW3GIbwMfrpNZPnrMdFNQ'
-r=url_open(link)
-soup=BeautifulSoup(r.text,"lxml")
-pics_list = soup.find_all('img',class_='')
-# print(pics_list)
-for i in range(len(pics_list)):
-    try:
-        link = pics_list[i]['data-src']
-    except:
-        pass
-    content=url_open(link).content
-    # filename = '/Users/sunyuting/YuC-Study/爬虫项目/sepics/' + link.split('/')[-2] + '.jpg'
-    # with open(filename, 'wb')as f:
-    #     f.write(content)
-    print(link)
-    print('===========================')
+# print('==================================')
+# link='https://mp.weixin.qq.com/s/OxW3GIbwMfrpNZPnrMdFNQ'
+# r=url_open(link)
+# soup=BeautifulSoup(r.text,"lxml")
+# pics_list = soup.find_all('img',class_='')
+# # print(pics_list)
+# for i in range(len(pics_list)):
+#     try:
+#         link = pics_list[i]['data-src']
+#     except:
+#         pass
+#     content=url_open(link).content
+#     # filename = '/Users/sunyuting/YuC-Study/爬虫项目/sepics/' + link.split('/')[-2] + '.jpg'
+#     # with open(filename, 'wb')as f:
+#     #     f.write(content)
+#     print(link)
+#     print('===========================')
 
 
 # print('文本编码：',r.encoding)
@@ -104,3 +104,16 @@ print(list1)
 # Button(root,text="NO.2",relief=SUNKEN,fg="purple").pack()
 # # tk的按钮显现不了字还是
 # mainloop()
+
+
+from fake_useragent import UserAgent
+
+headers = {UserAgent().random}
+print(headers)
+print('==================================')
+
+
+str1="sasas, sajfqn http:http\n llsaajghttps"
+a=str1.rfind("https")
+print(a)
+

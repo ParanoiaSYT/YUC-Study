@@ -1,8 +1,12 @@
-# 面向对象
 import pygame
 import sys
 from pygame.locals import *
 from random import *
+import math
+
+# spritecollide(sprite,group,dokill,collided=None)
+# 第三个参数是碰撞毁灭；第四个参数设置特殊检测方法，忽略的话默认检测rect
+# 第四个参数pygame.sprite.collide_circle就是支持圆碰撞检测,但需要半径参数
 
 class Ball(pygame.sprite.Sprite):
     # pygame.sprite.Sprite是pygame里精灵的基类，继承就行
@@ -15,6 +19,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect.left,self.rect.top=position
         self.speed=speed
         self.width,self.height=bg_size[0],bg_size[1]
+        self.radius=self.rect.width/2
+        # 传入半径参数(圆碰撞检测所需)
 
     def move(self):
         self.rect=self.rect.move(self.speed)
@@ -45,6 +51,8 @@ def main():
 
     # 创建五个随机小球放入balls列表
     balls=[]
+    group=pygame.sprite.Group()
+
     BALL_NUM=5
     for i in range(BALL_NUM):
         position=randint(0,width-100),randint(0,height-100)
@@ -52,7 +60,10 @@ def main():
         speed=[randint(-10,10),randint(-10,10)]
         ball=Ball(ball_image,position,speed,bg_size)
         # Ball类实例化
+        while pygame.sprite.spritecollide(ball,group,False,pygame.sprite.collide_circle):
+            ball.rect.left,ball.rect.top=randint(0,width-100),randint(0,height-100)
         balls.append(ball)
+        group.add(ball)
 
     clock=pygame.time.Clock()
 
@@ -67,6 +78,14 @@ def main():
             each_ball.move()
             screen.blit(each_ball.image,each_ball.rect)
             # class Ball里传入的rect就是矩形位置
+
+        for each in group:
+            group.remove(each)
+            if pygame.sprite.spritecollide(each,group,False,pygame.sprite.collide_circle):
+                each.speed[0]=-each.speed[0]
+                each.speed[1]=-each.speed[1]
+            group.add(each)
+
 
         pygame.display.flip()
         clock.tick(30)

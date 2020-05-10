@@ -23,7 +23,7 @@ textLable=Label(frame1,
 textLable.pack(side=LEFT)
 
 
-photo=PhotoImage(file='/Users/sunyuting/Desktop/18.gif')
+photo=PhotoImage(file='18.gif')
 # 注意Tkinter只支持gif图片，就算改后缀也没用!
 
 imageLabel=Label(frame1,image=photo)
