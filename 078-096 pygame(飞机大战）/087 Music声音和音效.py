@@ -42,7 +42,7 @@ while True:
         elif event.type==pygame.MOUSEBUTTONDOWN:
             if event.button==1:
                 cat_sound.play()
-            elif event.button==3:
+            elif event.button==2:
             # pygame在Mac上右键事件是button==3
                 dog_sound.play()
         elif event.type==KEYDOWN:

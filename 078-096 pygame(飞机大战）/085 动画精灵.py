@@ -69,7 +69,7 @@ def main():
             # class Ball里传入的rect就是矩形位置
 
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 
 
