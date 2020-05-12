@@ -7,6 +7,8 @@ import math
 # spritecollide(sprite,group,dokill,collided=None)
 # 第三个参数是碰撞毁灭；第四个参数设置特殊检测方法，忽略的话默认检测rect
 # 第四个参数pygame.sprite.collide_circle就是支持圆碰撞检测,但需要半径参数
+# 返回一个列表，里面包含所有与sprite碰撞的元素
+
 
 class Ball(pygame.sprite.Sprite):
     # pygame.sprite.Sprite是pygame里精灵的基类，继承就行

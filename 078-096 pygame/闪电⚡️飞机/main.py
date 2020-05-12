@@ -77,7 +77,7 @@ def main():
 
     # 生成敌方飞机(将所有敌机放入碰撞组）
     enemies=pygame.sprite.Group()
-
+    # 除了所有飞机一个组，不同种类的飞机也各自有组
     # 生成敌方小飞机
     small_enemies=pygame.sprite.Group()
     add_small_enemies(small_enemies,enemies,15)
@@ -87,6 +87,12 @@ def main():
     # 生成敌方大飞机
     big_enemies=pygame.sprite.Group()
     add_big_enemies(big_enemies,enemies,2)
+
+    # 中弹图片索引
+    e1_destroy_index=0
+    e2_destroy_index=0
+    e3_destroy_index=0
+    me_destroy_index=0
 
 
     clock=pygame.time.Clock()
@@ -115,30 +121,103 @@ def main():
 
         # 绘制大飞机
         for each in big_enemies:
-            each.move()
-            if switch_image:
-                screen.blit(each.image1,each.rect)
+            if each.active:
+                each.move()
+                if switch_image:
+                    screen.blit(each.image1,each.rect)
+                else:
+                    screen.blit(each.image2,each.rect)
+            # 大飞机即将出现时带音效
+                if each.rect.bottom==-50:
+                    # 大飞机speed=1，肯定会到达-50,这时候开始播放(知道挂掉）
+                    enemy3_fly_sound.play(-1)
+                    # -1表示循环播放
             else:
-                screen.blit(each.image2,each.rect)
-        # 大飞机即将出现时带音效
-            if each.rect.bottom>-50:
-                enemy3_fly_sound.play()
+                if not (delay%3):
+                    # 降速否则毁灭图片看不清
+                    if e3_destroy_index == 0:
+                        # 毁灭之歌
+                        enemy3_down_sound.play()
+                    # 毁灭时放图片（索引）
+                    screen.blit(each.destroy_images[e3_destroy_index],each.rect)
+                    # 下面是个小技巧，余数从0～5，对应毁灭图片列表里6歌元素
+                    e3_destroy_index=(e3_destroy_index+1)%6
+                    # 一开始（0+1）%6==1 ，下面判断确保进行一轮
+                    if e3_destroy_index==0:
+                        enemy3_fly_sound.stop()
+                        each.reset()
+
         # 绘制中飞机
         for each in mid_enemies:
-            each.move()
-            screen.blit(each.image,each.rect)
+            if each.active:
+                each.move()
+                screen.blit(each.image,each.rect)
+            else:
+                if not (delay % 3):
+                # 降速否则毁灭图片看不清
+                    if e2_destroy_index == 0:
+                        # 毁灭之歌
+                        enemy2_down_sound.play()
+                        # 防止pygame音效通道被占满（防止重复帧播放音效）
+                    # 毁灭时放图片（索引）
+                    screen.blit(each.destroy_images[e2_destroy_index],each.rect)
+                    # 下面是个小技巧，余数从0～5，对应毁灭图片列表里6歌元素
+                    e2_destroy_index=(e2_destroy_index+1)%4
+                    # 一开始（0+1）%6==1 ，下面判断确保进行一轮
+                    if e2_destroy_index==0:
+                        each.reset()
+
          # 绘制小飞机
         for each in small_enemies:
-            each.move()
-            screen.blit(each.image,each.rect)
+            if each.active:
+                each.move()
+                screen.blit(each.image,each.rect)
+            else:
+                if not (delay % 3):
+                # 降速否则毁灭图片看不清
+                    if e1_destroy_index==0:
+                        # 毁灭之歌
+                        enemy1_down_sound.play()
+                    # 毁灭时放图片（索引）
+                    screen.blit(each.destroy_images[e1_destroy_index],each.rect)
+                    # 下面是个小技巧，余数从0～5，对应毁灭图片列表里6歌元素
+                    e1_destroy_index=(e1_destroy_index+1)%4
+                    # 一开始（0+1）%6==1 ，下面判断确保进行一轮
+                    if e1_destroy_index==0:
+                        each.reset()
+
+        #检测我方飞机是否被撞（第三个参数是碰撞毁灭False,第四个参数默认是矩形区域检测））
+        enemies_down=pygame.sprite.spritecollide(me,enemies,False,pygame.sprite.collide_mask)
+        # pygame.sprite.collide_mask图片非透明部分接触碰撞
+        if enemies_down:
+            me.active=False
+        # 返回一个列表，里面包含所有与sprite碰撞的元素,敌机的active也为False
+            for e in enemies_down:
+                e.active=False
+
 
 
         # 我方飞机绘制(尾气切换)
-        if switch_image:
-            screen.blit(me.image1,me.rect)
+        if me.active:
+            if switch_image:
+                screen.blit(me.image1,me.rect)
+            else:
+                screen.blit(me.image2,me.rect)
         else:
-            screen.blit(me.image2,me.rect)
-
+            if not (delay % 3):
+            # 降速否则毁灭图片看不清
+                if me_destroy_index == 0:
+                    # 毁灭之歌
+                    me_down_sound.play()
+                # 毁灭时放图片（索引）
+                screen.blit(me.destroy_images[me_destroy_index], me.rect)
+                # 下面是个小技巧，余数从0～5，对应毁灭图片列表里6歌元素
+                me_destroy_index = (me_destroy_index + 1) % 4
+                # 一开始（0+1）%6==1 ，下面判断确保进行一轮
+                if me_destroy_index == 0:
+                    # me.reset()
+                    print("GAME OVER")
+                    running=False
 
         # 延迟切换(delay只有被5整除的时候才会切换)
         if not(delay%5):

@@ -10,6 +10,21 @@ class MyPlane(pygame.sprite.Sprite):
         self.width,self.height=bg_size[0],bg_size[1]
         self.rect.left,self.rect.top=(self.width-self.rect.width)//2,\
                                      self.height-self.rect.height-60
+        self.destroy_images = []
+        self.destroy_images.extend([
+            pygame.image.load('images/me_destroy_1.png').convert_alpha(),
+            pygame.image.load('images/me_destroy_2.png').convert_alpha(),
+            pygame.image.load('images/me_destroy_3.png').convert_alpha(),
+            pygame.image.load('images/me_destroy_4.png').convert_alpha()
+        ])
+        # 我方飞机毁灭时的四张过程图片列表
+
+        self.active=True
+        # 存活判断
+
+        self.mask=pygame.mask.from_surface(self.image1)
+        # 完美碰撞检测(将图片非透明部分设为mask)
+
         # 飞机速度设为10
         self.speed=10
 
