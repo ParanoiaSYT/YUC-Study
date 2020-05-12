@@ -42,21 +42,22 @@ class Ball(pygame.sprite.Sprite):
         else:
             self.rect=self.rect.move([self.side[0]*self.speed[0],
                                   self.side[1]*self.speed[1]])
-        #这里用rect的move方法就可以了
+        #这里用rect的move方法就可以了,不受控状态为矢量，
 
         # 设置小球碰左墙后从相连右边出来(穿越效果)
         if self.rect.right<=0:
             self.rect.left=self.width
         elif self.rect.left>=self.width:
             self.rect.right=0
-        elif self.rect.bottom<=0:
-            self.top=self.height
+        elif self.rect.bottom <= 0:
+            self.rect.top = self.height
         elif self.rect.top>=self.height:
             self.rect.bottom=0
 
+
     # check方法检测在一秒内产生的事件数量是否匹配目标
     def check(self,motion):
-        if self.target<motion<self.target+100:
+        if self.target<motion<self.target+20:
             return True
         else:
             return False
@@ -105,6 +106,7 @@ def main():
 
     # 音乐结束时游戏结束
     GAMEOVER=USEREVENT
+    # USEREVENT表示24事件，24及以后都是自定义事件
     pygame.mixer.music.set_endevent(GAMEOVER)
 
     bg_size = width, height = 1024,681
@@ -137,7 +139,7 @@ def main():
         # 球的直径为100
         speed=[randint(1,10),randint(1,10)]
         # 速度大小设置为1-10的随机
-        ball=Ball(grayball_image,greenball_image,position,speed,bg_size,4*(i+1))
+        ball=Ball(grayball_image,greenball_image,position,speed,bg_size,5*(i+1))
         # 这里设置target=5*(i+1)
 
         # Ball类实例化
@@ -219,8 +221,6 @@ def main():
                                 msgs.append((msg,msg_pos))
                                 # 将要打印的内容和位置以元组形式加入列表中
                                 laugh_sound.play()
-                                pygame.time.delay(3000)
-
 
         screen.blit(background,(0,0))
         screen.blit(glass.glass_image,glass.glass_rect)
