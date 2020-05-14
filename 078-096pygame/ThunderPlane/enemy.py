@@ -80,6 +80,7 @@ class MidEnemy(pygame.sprite.Sprite):
 
     def reset(self):
         self.active=True
+        self.energy=MidEnemy.energy
         self.rect.left, self.rect.top = randint(0, self.width - self.rect.width), \
                                         randint(-10 * self.height, -self.height)
 
@@ -127,5 +128,6 @@ class BigEnemy(pygame.sprite.Sprite):
 
     def reset(self):
         self.active=True
+        self.energy=BigEnemy.energy
         self.rect.left, self.rect.top = randint(0, self.width - self.rect.width), \
                                         randint(-15 * self.height, -5*self.height)

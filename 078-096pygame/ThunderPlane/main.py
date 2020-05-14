@@ -5,6 +5,10 @@ import traceback
 import myplane
 import enemy
 import bullet
+import supply
+from random import *
+import os
+
 
 
 pygame.init()
@@ -25,30 +29,30 @@ WHITE=(255,255,255)
 
 # 载入游戏音乐
 # bgm
-pygame.mixer.music.load('sound/game_music.ogg')
+pygame.mixer.music.load(r'sound/game_music.ogg')
 pygame.mixer.music.set_volume(0.15)
 # 各种sound
-bullet_sound=pygame.mixer.Sound('sound/bullet.wav')
-bullet_sound.set_volume(0.2)
-bomb_sound=pygame.mixer.Sound('sound/use_bomb.wav')
+bullet_sound=pygame.mixer.Sound(r'sound/bullet.wav')
+bullet_sound.set_volume(0.1)
+bomb_sound=pygame.mixer.Sound(r'sound/use_bomb.wav')
 bomb_sound.set_volume(0.2)
-supply_sound=pygame.mixer.Sound('sound/supply.wav')
-supply_sound.set_volume(0.2)
-get_bomb_sound=pygame.mixer.Sound('sound/get_bomb.wav')
+supply_sound=pygame.mixer.Sound(r'sound/supply.wav')
+supply_sound.set_volume(0.4)
+get_bomb_sound=pygame.mixer.Sound(r'sound/get_bomb.wav')
 get_bomb_sound.set_volume(0.2)
-get_bullet_sound=pygame.mixer.Sound('sound/get_bullet.wav')
+get_bullet_sound=pygame.mixer.Sound(r'sound/get_bullet.wav')
 get_bullet_sound.set_volume(0.2)
-upgrade_sound=pygame.mixer.Sound('sound/upgrade.wav')
+upgrade_sound=pygame.mixer.Sound(r'sound/upgrade.wav')
 upgrade_sound.set_volume(0.6)
-enemy3_fly_sound=pygame.mixer.Sound('sound/enemy3_flying.wav')
+enemy3_fly_sound=pygame.mixer.Sound(r'sound/enemy3_flying.wav')
 enemy3_fly_sound.set_volume(0.2)
-enemy3_down_sound=pygame.mixer.Sound('sound/enemy3_down.wav')
+enemy3_down_sound=pygame.mixer.Sound(r'sound/enemy3_down.wav')
 enemy3_down_sound.set_volume(0.5)
-enemy2_down_sound=pygame.mixer.Sound('sound/enemy2_down.wav')
+enemy2_down_sound=pygame.mixer.Sound(r'sound/enemy2_down.wav')
 enemy2_down_sound.set_volume(0.2)
-enemy1_down_sound=pygame.mixer.Sound('sound/enemy1_down.wav')
+enemy1_down_sound=pygame.mixer.Sound(r'sound/enemy1_down.wav')
 enemy1_down_sound.set_volume(0.1)
-me_down_sound=pygame.mixer.Sound('sound/me_down.wav')
+me_down_sound=pygame.mixer.Sound(r'sound/me_down.wav')
 me_down_sound.set_volume(0.2)
 thunder_sound=pygame.mixer.Sound('sound/thunder.wav')
 thunder_sound.set_volume(0.6)
@@ -99,22 +103,31 @@ def main():
     # 生成普通子弹
     bullet1=[]
     bullet1_index=0
-    BULLET_NUM=4
+    BULLET1_NUM=4
     # 设置为四颗子弹（每屏幕）
-    for i in range(BULLET_NUM):
+    for i in range(BULLET1_NUM):
         bullet1.append(bullet.Bullet1(me.rect.midtop))
         # rect的midtop即位于顶部中央
+    # 生成超级子弹
+    bullet2 = []
+    bullet2_index = 0
+    BULLET2_NUM = 8
+    # 设置为四颗子弹（每屏幕）
+    for i in range(BULLET2_NUM//2):
+        bullet2.append(bullet.Bullet2((me.rect.centerx-33,me.rect.centery)))
+        bullet2.append(bullet.Bullet2((me.rect.centerx+30,me.rect.centery)))
 
     # 用于统计得分
     score=0
     score_font=pygame.font.Font('font/font.ttf',36)
+    # pyinstaller打包时字体要写绝对路径
 
     # 暂停游戏标志
     paused=False
-    paused_nor_image=pygame.image.load('images/pause_nor.png').convert_alpha()
-    paused_pressed_image=pygame.image.load('images/pause_pressed.png').convert_alpha()
-    resume_nor_image=pygame.image.load('images/resume_nor.png').convert_alpha()
-    resume_pressed_image=pygame.image.load('images/resume_pressed.png').convert_alpha()
+    paused_nor_image=pygame.image.load(r'./images/pause_nor.png').convert_alpha()
+    paused_pressed_image=pygame.image.load(r'./images/pause_pressed.png').convert_alpha()
+    resume_nor_image=pygame.image.load(r'./images/resume_nor.png').convert_alpha()
+    resume_pressed_image=pygame.image.load(r'./images/resume_pressed.png').convert_alpha()
     paused_rect=paused_nor_image.get_rect()
     paused_rect.left,paused_rect.top=width-paused_rect.width-10,10
     paused_image=paused_nor_image
@@ -124,18 +137,31 @@ def main():
     level=1
 
     # 设置全屏炸弹
-    bomb_image=pygame.image.load('images/bomb.png').convert_alpha()
+    bomb_image=pygame.image.load(r'./images/bomb.png').convert_alpha()
     bomb_rect=bomb_image.get_rect()
     bomb_font=pygame.font.Font('font/font.ttf',48)
     bomb_num=3
 
+    # 每30秒发放补给包
+    bullet_supply=supply.Bullet_Supply(bg_size)
+    bomb_supply=supply.Bomb_Supply(bg_size)
+    # 补给包定时器(自定义事件） 30s
+    SUPPLY_TIMER=USEREVENT
+    pygame.time.set_timer(SUPPLY_TIMER,20*1000)
 
-    # 中弹图片索引
+
+    # 超级子弹定时器
+    DOUBLE_BULLET_TIMER=USEREVENT+1
+    # 标志是否使用
+    is_double_bullet=False
+
+
+
+    # 中弹图片索引(中弹图片切换特效）
     e1_destroy_index=0
     e2_destroy_index=0
     e3_destroy_index=0
     me_destroy_index=0
-
 
     clock=pygame.time.Clock()
     running=True
@@ -151,6 +177,16 @@ def main():
                 if event.button==1 and paused_rect.collidepoint(event.pos):
                     # rect的collidepoint方法检测事件是否发生的矩形区域内
                     paused=not paused
+                    if paused:
+                        # 暂停时音乐和音效暂停
+                        pygame.mixer.music.pause()
+                        pygame.mixer.pause()
+                    else:
+                        #  音乐和音效继续播放
+                        pygame.mixer.music.unpause()
+                        pygame.mixer.unpause()
+
+
             elif event.type==MOUSEMOTION:
                 if paused_rect.collidepoint(event.pos):
                     if paused:
@@ -162,7 +198,7 @@ def main():
                         paused_image=resume_nor_image
                     else:
                         paused_image=paused_nor_image
-            elif event.type==KEYDOWN:
+            elif event.type==KEYDOWN and not paused:
                 if event.key==K_SPACE:
                     if bomb_num:
                         bomb_num-=1
@@ -173,7 +209,16 @@ def main():
                         for each in enemies:
                             if each.rect.bottom>0:
                                 each.active=False
-
+            elif event.type==SUPPLY_TIMER and not paused:
+                supply_sound.play()
+                if choice([True,False]):
+                    bomb_supply.reset()
+                else:
+                    bullet_supply.reset()
+            elif event.type==DOUBLE_BULLET_TIMER:
+                # 触发超级子弹18秒后启动DOUBLE_BULLET_TIMER事件，定时器就关闭
+                is_double_bullet=False
+                pygame.time.set_timer(DOUBLE_BULLET_TIMER,0)
 
         # 根据用户得分增加难度
         if level==1 and score >500:
@@ -229,14 +274,48 @@ def main():
             # 背景绘制
             screen.blit(background, (0, 0))
 
+            # 绘制炸弹补给包并检测获得
+            if bomb_supply.active:
+                bomb_supply.move()
+                screen.blit(bomb_supply.image,bomb_supply.rect)
+                if pygame.sprite.collide_mask(me,bomb_supply):
+                    # 这里检测完美碰撞（两个单体），返回True和False
+                    get_bomb_sound.play()
+                    if bomb_num<3:
+                        bomb_num+=1
+                    bomb_supply.active=False
+            # 绘制子弹补给包并检测获得
+            if bullet_supply.active:
+                bullet_supply.move()
+                screen.blit(bullet_supply.image, bullet_supply.rect)
+                if pygame.sprite.collide_mask(me, bullet_supply):
+                    # 这里检测完美碰撞（两个单体），返回True和False
+                    get_bullet_sound.play()
+                    # 发射超级子弹,持续18秒
+                    is_double_bullet=True
+                    pygame.time.set_timer(DOUBLE_BULLET_TIMER,12*1000)
+                    bullet_supply.active=False
+
+
+
             # 子弹发射（每10帧绘制一次）
             if not (delay%10):
-                bullet1[bullet1_index].reset(me.rect.midtop)
-                # 这里其实是预算了子弹差不多4颗能到屏幕80%地方(飞机下面状态栏占了20%）
-                bullet1_index=(bullet1_index+1)%BULLET_NUM
+                # 播放子弹声音
+                bullet_sound.play()
+                if is_double_bullet:
+                    bullets=bullet2
+                    bullets[bullet2_index].reset((me.rect.centerx-33,me.rect.centery))
+                    bullets[bullet2_index+1].reset((me.rect.centerx+30,me.rect.centery))
+                    # 传入二元组（位置)
+                    bullet2_index=(bullet2_index+2)%BULLET2_NUM
+                else:
+                    bullets=bullet1
+                    bullets[bullet1_index].reset(me.rect.midtop)
+                    # 这里其实是预算了子弹差不多4颗能到屏幕80%地方(飞机下面状态栏占了20%）
+                    bullet1_index=(bullet1_index+1)%BULLET1_NUM
 
             # 检测子弹是否击中敌机
-            for b in bullet1:
+            for b in bullets:
                 if b.active:
                     b.move()
                     screen.blit(b.image,b.rect)
@@ -395,6 +474,9 @@ def main():
                         print("GAME OVER")
                         running=False
 
+
+
+
         # 得分显示(render函数将成字符串渲染成surface对象）
         score_text=score_font.render("Score : %s"%str(score),True,WHITE)
         # 第二个参数为True表示拒绝锯齿
@@ -436,3 +518,5 @@ def main():
 #         pygame.quit()
 #         input()
 #         # input起到一个停留的作用（接受用户输入才可以走）(聚焦作用）
+main()
+print(os.getcwd())
