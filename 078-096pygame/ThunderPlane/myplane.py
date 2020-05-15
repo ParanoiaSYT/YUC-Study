@@ -22,6 +22,9 @@ class MyPlane(pygame.sprite.Sprite):
         self.active=True
         # 存活判断
 
+        self.invincible=False
+        # 设置初始无敌状态
+
         self.mask=pygame.mask.from_surface(self.image1)
         # 完美碰撞检测(将图片非透明部分设为mask)
 
@@ -49,6 +52,14 @@ class MyPlane(pygame.sprite.Sprite):
             self.rect.left+=self.speed
         else:
             self.rect.right=self.width
+
+    def reset(self):
+        self.rect.left, self.rect.top = (self.width - self.rect.width) // 2, \
+                                        self.height - self.rect.height - 60
+        self.active=True
+        self.invincible=True
+
+
 
 # 检测按键有两种方法
 # 一、event事件检测key（适用于不是特别频繁的情况）

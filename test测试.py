@@ -117,3 +117,19 @@ str1="sasas, sajfqn http:http\n llsaajghttps"
 a=str1.rfind("https")
 print(a)
 
+print('==================================')
+with open("Burning.txt",'a+')as f:
+    # f.write("sssak\n")
+    f.seek(0,0)
+    # print(f.read())
+    print(f.readlines())
+print('==================================')
+
+
+with open("078-096pygame/ThunderPlane/record.txt",'a+')as f:
+    f.seek(0,0)
+    # print(f.read())
+    # print(int(f.read()))
+    # f.seek(0,0)
+    # f.truncate()
+    f.write("0")

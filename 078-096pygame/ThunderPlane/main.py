@@ -155,6 +155,24 @@ def main():
     # 标志是否使用
     is_double_bullet=False
 
+    #解除我方无敌计时器
+    INVINCIBLE_TIMER=USEREVENT+2
+
+
+    # 生命剩余
+    life_image=pygame.image.load('images/life.png').convert_alpha()
+    life_rect=life_image.get_rect()
+    life_num=3
+
+    # 用于阻止重复打开记录文件
+    recorded=False
+
+    # 游戏结束画面
+    gameover_font=pygame.font.Font("font/font.ttf",48)
+    again_image=pygame.image.load("images/again.png").convert_alpha()
+    again_rect=again_image.get_rect()
+    gameover_image=pygame.image.load("images/gameover.png").convert_alpha()
+    gameover_rect=gameover_image.get_rect()
 
 
     # 中弹图片索引(中弹图片切换特效）
@@ -219,6 +237,12 @@ def main():
                 # 触发超级子弹18秒后启动DOUBLE_BULLET_TIMER事件，定时器就关闭
                 is_double_bullet=False
                 pygame.time.set_timer(DOUBLE_BULLET_TIMER,0)
+            elif event.type==INVINCIBLE_TIMER:
+                me.invincible=False
+                pygame.time.set_timer(INVINCIBLE_TIMER,0)
+                # 触发解除无敌事件后，取消计时器
+
+
 
         # 根据用户得分增加难度
         if level==1 and score >500:
@@ -258,8 +282,10 @@ def main():
             increase_speed(small_enemies, 1)
             increase_speed(mid_enemies, 1)
 
+        # 背景绘制
+        screen.blit(background, (0, 0))
 
-        if not paused:
+        if life_num and not paused:
             # 频繁发生的用key模块 检测用户的整个键盘操作，返回布尔类型值
             key_pressed=pygame.key.get_pressed()
             if key_pressed[K_w] or key_pressed[K_UP]:
@@ -271,8 +297,6 @@ def main():
             if key_pressed[K_d] or key_pressed[K_RIGHT]:
                 me.moveright()
 
-            # 背景绘制
-            screen.blit(background, (0, 0))
 
             # 绘制炸弹补给包并检测获得
             if bomb_supply.active:
@@ -444,7 +468,7 @@ def main():
             #检测我方飞机是否被撞（第三个参数是碰撞毁灭False,第四个参数默认是矩形区域检测））
             enemies_down=pygame.sprite.spritecollide(me,enemies,False,pygame.sprite.collide_mask)
             # pygame.sprite.collide_mask图片非透明部分接触碰撞
-            if enemies_down:
+            if enemies_down and not me.invincible:
                 me.active=False
             # 返回一个列表，里面包含所有与sprite碰撞的元素,敌机的active也为False
                 for e in enemies_down:
@@ -471,16 +495,80 @@ def main():
                     # 一开始（0+1）%6==1 ，下面判断确保进行一轮
                     if me_destroy_index == 0:
                         # me.reset()
-                        print("GAME OVER")
-                        running=False
+                        life_num-=1
+                        me.reset()
+                        pygame.time.set_timer(INVINCIBLE_TIMER,3*1000)
+                        # 设置reset后3秒，然后启动解除无敌状态
+
+            # 得分显示(render函数将成字符串渲染成surface对象）
+            score_text = score_font.render("Score : %s" % str(score), True, WHITE)
+            # 第二个参数为True表示拒绝锯齿
+            screen.blit(score_text, (10, 5))
 
 
+        # 生命为0结束
+        elif life_num==0:
+            # bgm停止
+            pygame.mixer.music.stop()
+            # 停止音效
+            pygame.mixer.stop()
+            # 停止补给包
+            pygame.time.set_timer(SUPPLY_TIMER,0)
+
+            if not recorded:
+                # 读取历史最高分
+                with open("record.txt",'a+')as f:
+                    f.seek(0,0)
+                    record_score=int(f.read())
+
+                # 如果玩家得分高于最高分则存档
+                    if score>record_score:
+                        f.seek(0, 0)
+                        f.truncate()
+                        f.write(str(score))
+                recorded=True
+                print("Game Over!")
+            #  绘制游戏结束画面
+            record_score_text=score_font.render("Best : %d"%record_score,True,WHITE)
+            screen.blit(record_score_text,(50,50))
+
+            gameover_text1=gameover_font.render("Your Score",True,WHITE)
+            gameover_text1_rect=gameover_text1.get_rect()
+            gameover_text1_rect.left,gameover_text1_rect.top=(width-gameover_text1_rect.width)//2,height//3
+            screen.blit(gameover_text1,gameover_text1_rect)
+
+            # 分数显示
+            gameover_text2=gameover_font.render(str(score),True,WHITE)
+            gameover_text2_rect=gameover_text2.get_rect()
+            gameover_text2_rect.left,gameover_text2_rect.top=(width-gameover_text2_rect.width)//2,gameover_text1_rect.bottom+10
+            screen.blit(gameover_text2,gameover_text2_rect)
+
+            # 重新开始按钮
+            again_rect.left,again_rect.top=(width-again_rect.width)//2,gameover_text2_rect.bottom+50
+            screen.blit(again_image,again_rect)
+
+            # 游戏结束按钮
+            gameover_rect.left,gameover_rect.top=(width-again_rect.width)//2,again_rect.bottom+10
+            screen.blit(gameover_image,gameover_rect)
+
+            # 检测用户的鼠标操作
+            # 如果用户按下鼠标左键(0表示第一个元素————鼠标左键）
+            if pygame.mouse.get_pressed()[0]:
+                # 获取鼠标坐标
+                pos = pygame.mouse.get_pos()
+                # 如果用户点击“重新开始”
+                if again_rect.left < pos[0] < again_rect.right and \
+                        again_rect.top < pos[1] < again_rect.bottom:
+                    # 调用main函数，重新开始游戏
+                    main()
+                # 如果用户点击“结束游戏”
+                elif gameover_rect.left < pos[0] < gameover_rect.right and \
+                        gameover_rect.top < pos[1] < gameover_rect.bottom:
+                    # 退出游戏
+                    pygame.quit()
+                    sys.exit()
 
 
-        # 得分显示(render函数将成字符串渲染成surface对象）
-        score_text=score_font.render("Score : %s"%str(score),True,WHITE)
-        # 第二个参数为True表示拒绝锯齿
-        screen.blit(score_text,(10,5))
 
         # 绘制暂停按钮
         screen.blit(paused_image,paused_rect)
@@ -493,6 +581,11 @@ def main():
         text_rect=bomb_text.get_rect()
         screen.blit(bomb_text,(20+bomb_rect.width,height-5-text_rect.height))
 
+
+        # 绘制生命剩余显示
+        if life_num:
+            for i in range(life_num):
+                screen.blit(life_image,(width-10-(i+1)*life_rect.width,height-10-life_rect.height))
 
 
         # 延迟切换(delay只有被5整除的时候才会切换)
@@ -519,4 +612,3 @@ def main():
 #         input()
 #         # input起到一个停留的作用（接受用户输入才可以走）(聚焦作用）
 main()
-print(os.getcwd())
