@@ -14,7 +14,7 @@ import os
 pygame.init()
 pygame.mixer.init()
 
-bg_size=width,height=480,700
+bg_size=width,height=640,880
 screen=pygame.display.set_mode(bg_size)
 pygame.display.set_caption("闪电⚡️战机")
 
@@ -103,7 +103,7 @@ def main():
     # 生成普通子弹
     bullet1=[]
     bullet1_index=0
-    BULLET1_NUM=4
+    BULLET1_NUM=6
     # 设置为四颗子弹（每屏幕）
     for i in range(BULLET1_NUM):
         bullet1.append(bullet.Bullet1(me.rect.midtop))
@@ -111,7 +111,7 @@ def main():
     # 生成超级子弹
     bullet2 = []
     bullet2_index = 0
-    BULLET2_NUM = 8
+    BULLET2_NUM = 12
     # 设置为四颗子弹（每屏幕）
     for i in range(BULLET2_NUM//2):
         bullet2.append(bullet.Bullet2((me.rect.centerx-33,me.rect.centery)))
@@ -119,7 +119,7 @@ def main():
 
     # 用于统计得分
     score=0
-    score_font=pygame.font.Font('font/font.ttf',36)
+    score_font=pygame.font.Font('font/Herculanum.ttf',36)
     # pyinstaller打包时字体要写绝对路径
 
     # 暂停游戏标志
@@ -139,7 +139,7 @@ def main():
     # 设置全屏炸弹
     bomb_image=pygame.image.load(r'./images/bomb.png').convert_alpha()
     bomb_rect=bomb_image.get_rect()
-    bomb_font=pygame.font.Font('font/font.ttf',48)
+    bomb_font=pygame.font.Font('font/Herculanum.ttf',48)
     bomb_num=3
 
     # 每30秒发放补给包
@@ -168,7 +168,7 @@ def main():
     recorded=False
 
     # 游戏结束画面
-    gameover_font=pygame.font.Font("font/font.ttf",48)
+    gameover_font=pygame.font.Font("font/Herculanum.ttf",48)
     again_image=pygame.image.load("images/again.png").convert_alpha()
     again_rect=again_image.get_rect()
     gameover_image=pygame.image.load("images/gameover.png").convert_alpha()
@@ -221,7 +221,7 @@ def main():
                     if bomb_num:
                         bomb_num-=1
                         thunder_sound.play()
-                        screen.blit(thunder_image,(-135,0))
+                        screen.blit(thunder_image,(0,0))
                         pygame.display.flip()
                         pygame.time.delay(500)
                         for each in enemies:
