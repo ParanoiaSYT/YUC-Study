@@ -119,25 +119,25 @@ class Fish():
 
         return (self.x,self.y)
 
-# class Goldfish(Fish):
-#     pass
-# class Carp(Fish):
-#     pass
-# class Salmon(Fish):
-#     pass
-# class Shark(Fish):
-#     def __init__(self):       #子类重写了父类的方法就会覆盖
-#         # Fish.__init__(self)         #未绑定的父类，给的是子类的实例对象
-#         super(Shark, self).__init__()      #或者用super函数方法（不用给出继类名字）
-#         self.hungry=True
-#     def eat(self):
-#         if self.hungry==True:
-#             print('吃吃吃吃吃次吃吃吃')
-#             self.hungry=False
-#         else:
-#             print('吃饱了')
-# shark=Shark()
-# shark.eat()
+class Goldfish(Fish):
+    pass
+class Carp(Fish):
+    pass
+class Salmon(Fish):
+    pass
+class Shark(Fish):
+    def __init__(self):       #子类重写了父类的方法就会覆盖
+        # Fish.__init__(self)         #未绑定的父类，给的是子类的实例对象
+        super(Shark, self).__init__()      #或者用super函数方法（不用给出继类名字）
+        self.hungry=True
+    def eat(self):
+        if self.hungry==True:
+            print('吃吃吃吃吃次吃吃吃')
+            self.hungry=False
+        else:
+            print('吃饱了')
+shark=Shark()
+shark.eat()
 
 gui=Gui()
 fish=[]     #鱼群列表

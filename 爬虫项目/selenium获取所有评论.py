@@ -31,7 +31,7 @@ for i in range(0,3):
     # 再找到下一页点击
 
     next_page=driver.find_element_by_xpath("/html/body/div/div[1]/div[9]/div[12]/button[%d]"%(i+1))
-    #⚠️注意这里在翻到第4页后，next_page的xpath最后一个为div[14]，非[12]，这里这打印了前三页的评论
+    #⚠️注意这里在翻到第4页后，next_page的xpath最后一个为div[14]，非[12]，这里只打印了前三页的评论
     next_page.click()
 
     time.sleep(3)
@@ -42,6 +42,7 @@ for i in range(0,3):
 
 finish=time.time()
 print('总共运行时间为：%s秒'%str(finish-start))
+
 
 
 
