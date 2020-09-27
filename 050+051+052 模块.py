@@ -5,7 +5,7 @@
 ##搜索路径（目录列表）site-packages位置专门存放模块
 import sys
 print(sys.path)
-sys.path.append('/Users/sunyuting/YuC-Study/自制模块')      #可以导入想要的路径
+# sys.path.append('/Users/sunyuting/YuC-Study/自制模块')      #可以导入想要的路径
 print(sys.path)
 
 import hello

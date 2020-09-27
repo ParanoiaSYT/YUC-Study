@@ -14,9 +14,12 @@ for row in ws.iter_rows(min_col=2,min_row=2,max_col=5,max_row=5):
     # row是每一行，row[3]就是每一行的第4列位置(注意是从min_col开始算的）
     ws[row[3].coordinate]='=SUM(%s:%s)'%(row[0].coordinate,row[2].coordinate)
 
+
 center_alignment=openpyxl.styles.Alignment(horizontal='center',vertical='center')
+
 for row in ws.iter_rows(min_col=2,min_row=2,max_col=6,max_row=5):
     ws[row[4].coordinate]='=IF(%s>250,"A","B")'%(row[3].coordinate)
+    # IF函数，如果条件成立则赋值A，条件不成立则赋值B
     # Excel里只认双引号解析
     ws[row[4].coordinate].alignment=center_alignment
 
